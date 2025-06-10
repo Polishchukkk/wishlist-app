@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_DATABASE: wishlist
+      MYSQL_USER: wishlist
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build: .
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/wishlist
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1111
+      JWT_SECRET: A7Fdsu3j8Ksdj398fkDsm3kDjs8dFms8sJfl390fkWmv2Kdsl903JsfPqwe1290
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:
